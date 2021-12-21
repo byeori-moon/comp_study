@@ -1,0 +1,113 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>가위바위보</title>
+    <style>
+        #computer {
+            width: 142px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="computer"></div>
+    <div>
+        <button id="scissors" class="btn">가위</button>
+        <button id="rock" class="btn">바위</button>
+        <button id="paper" class="btn">보</button>
+    </div>
+    <div id="score">0</div>
+    <script>
+        const $computer = document.querySelector('#computer');
+        const $scissors = document.querySelector('#scissors');
+        const $rock = document.querySelector('#rock');
+        const $paper = document.querySelector('#paper');
+        const $score = document.querySelector('#score');
+        const IMG_URL = './rsp.png';
+        $computer.style.background = `url(${IMG_URL}) -464px 0`;
+        $computer.style.backgroundSize = 'auto 200px';
+        const rspX = {
+            scissors: '0', // 가위
+            rock: '-220px', // 바위
+            paper: '-440px', // 보
+        };
+
+        let hand = 'scissors';
+        const changeHand = () => {
+
+            if (hand === 'scissors') {
+                hand = 'rock';
+            }
+            else if (hand === 'rock') {
+                hand = 'paper';
+            }
+            else if (hand === 'paper') {
+                hand = 'scissors';
+            }
+            $computer.style.background = `url(${IMG_URL}) ${rspX[hand]} 0`;
+            $computer.style.backgroundSize = 'auto 200px';
+        };
+        let intervalID = setInterval(changeHand, 50);
+        let score = 0;
+        let clickable = true;
+        const clickHandEvent = (inputHand) => {
+            return () => {
+                if (clickable) {
+                    clickable=false;
+                    clearInterval(intervalID);
+                    console.log(intervalID);
+                    if (inputHand === 'scissors') {
+                        if (hand === 'scissors') {
+                            $score.textContent = '무승부, 총점: ' + score;
+                        }
+                        else if (hand === 'rock') {
+                            score -= 1;
+                            $score.textContent = '패배, 총점: ' + score;
+                        }
+                        else if (hand === 'paper') {
+                            score += 1;
+                            $score.textContent = '승리, 총점: ' + score;
+                        }
+                    }
+                    else if (inputHand === 'rock') {
+                        if (hand === 'rock') {
+                            $score.textContent = '무승부, 총점: ' + score;
+                        }
+                        else if (hand === 'paper') {
+                            score -= 1;
+                            $score.textContent = '패배, 총점: ' + score;
+                        }
+                        else if (hand === 'scissors') {
+                            score += 1;
+                            $score.textContent = '승리, 총점: ' + score;
+                        }
+                    }
+                    else if (inputHand === 'paper') {
+                        if (hand === 'paper') {
+                            $score.textContent = '무승부, 총점: ' + score;
+                        }
+                        else if (hand === 'scissors') {
+                            score -= 1;
+                            $score.textContent = '패배, 총점: ' + score;
+                        }
+                        else if (hand === 'rock') {
+                            score += 1;
+                            $score.textContent = '승리, 총점: ' + score;
+                        }
+                    }
+                    setTimeout(() => {
+                        intervalID = setInterval(changeHand, 50);
+                        clickable=true;
+                    }, 1000);
+                }
+            }
+        };
+        $rock.addEventListener('click', clickHandEvent('rock'));
+        $scissors.addEventListener('click', clickHandEvent('scissors'));
+        $paper.addEventListener('click', clickHandEvent('paper'));
+    </script>
+</body>
+
+</html>

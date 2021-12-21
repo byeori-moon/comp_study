@@ -1,0 +1,20 @@
+doctype html
+html(lang="ko")
+    head 
+        title #{pageTitle} | Wetube
+        //-지금은 너무 디자인이 별로니까 대충 이쁘게 해주는 mvp.css입히기 
+        link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+    body
+        header 
+            h1=pageTitle
+        nav     
+            ul 
+                li 
+                    a(href="/videos/upload") Upload Video
+                li
+                    a(href="/") Home
+                li 
+                    a(href="join") join
+        main
+            block content
+    include partials/footer    
